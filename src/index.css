@@ -1,0 +1,100 @@
+@import "tailwindcss";
+@font-face {
+  font-family: 'InterSB';
+  src: url('/InterSB.otf');
+  font-weight: bold;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'InterM';
+  src: url('/InterM.otf');
+  font-weight: normal;
+  font-style: normal;
+}
+
+/* Custom circular cursor styles */
+.circle-cursor {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: transparent;
+  border: 2px solid rgba(49, 50, 54, 0.95);
+  transform: translate(-50%, -50%) scale(1);
+  pointer-events: none;
+  z-index: 9999;
+  transition: transform 140ms cubic-bezier(.2,.9,.2,1), border-color 140ms, opacity 120ms;
+  will-change: transform, left, top;
+}
+
+.circle-cursor.cursor--hover {
+  transform: translate(-50%, -50%) scale(1.9);
+  border-color: #ffffff;
+  background: rgba(255,255,255,0.04);
+}
+
+.circle-cursor.cursor--active {
+  transform: translate(-50%, -50%) scale(0.95);
+  opacity: 0.95;
+  border-color: #ffffff;
+  background: rgba(255,255,255,0.06);
+}
+
+/* Ensure the default system cursor is hidden on interactive elements
+   so the custom hollow ring is the only visible pointer. Keep inputs
+   and textareas unaffected if you prefer the I-beam; currently we
+   target buttons/links/role=button only. */
+button,
+a,
+[role="button"],
+label {
+  cursor: none !important;
+}
+
+/* Hide text (I-beam) cursor when hovering inputs/textarea/contenteditable
+   so only the custom cursor shows. Restore the text cursor on focus
+   so users still see a caret while typing. */
+input:hover,
+textarea:hover,
+[contenteditable="true"]:hover,
+label:hover {
+  cursor: none !important;
+}
+
+input:focus,
+textarea:focus,
+[contenteditable="true"]:focus {
+  cursor: text !important;
+}
+
+/* Disable custom cursor on touch / small screens — override rules above */
+@media (hover: none), (pointer: coarse), (max-width: 800px) {
+  .circle-cursor {
+    display: none !important;
+    pointer-events: none !important;
+  }
+
+  /* Restore system cursors on touch devices */
+  button,
+  a,
+  [role="button"],
+  label {
+    cursor: auto !important;
+  }
+
+  input:hover,
+  textarea:hover,
+  [contenteditable="true"]:hover,
+  label:hover {
+    cursor: auto !important;
+  }
+
+  /* Ensure text inputs still show the I-beam when focused */
+  input:focus,
+  textarea:focus,
+  [contenteditable="true"]:focus {
+    cursor: text !important;
+  }
+}
